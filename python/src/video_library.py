@@ -38,6 +38,10 @@ class VideoLibrary:
         """Modifies the id of the playing video."""
         self._playing_video = video_id
     
+    def stopping_video(self):
+        """Stops the current video"""
+        self._playing_video = ""
+
     def get_all_videos(self):
         """Returns all available video information from the video library."""
         return list(self._videos.values())
