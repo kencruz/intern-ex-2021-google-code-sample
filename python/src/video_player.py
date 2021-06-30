@@ -33,7 +33,10 @@ class VideoPlayer:
         if (video is None):
             print("Cannot play video: Video does not exist" )
         else:
+            if (len(self._video_library.playing) > 0):
+                print("Stopping video: " + self._video_library._playing_video)
             print('Playing video: {}'.format(video.title))
+            self._video_library.now_playing(video.title)
 
     def stop_video(self):
         """Stops the current video."""

@@ -17,6 +17,7 @@ class VideoLibrary:
     def __init__(self):
         """The VideoLibrary class is initialized."""
         self._videos = {}
+        self._playing_video = ""
         with open(Path(__file__).parent / "videos.txt") as video_file:
             reader = _csv_reader_with_strip(
                 csv.reader(video_file, delimiter="|"))
@@ -28,6 +29,15 @@ class VideoLibrary:
                     [tag.strip() for tag in tags.split(",")] if tags else [],
                 )
 
+    @property
+    def playing(self) -> str:
+        """Returns the id of the playing video."""
+        return self._playing_video
+
+    def now_playing(self, video_id):
+        """Modifies the id of the playing video."""
+        self._playing_video = video_id
+    
     def get_all_videos(self):
         """Returns all available video information from the video library."""
         return list(self._videos.values())
