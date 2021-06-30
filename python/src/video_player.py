@@ -30,10 +30,10 @@ class VideoPlayer:
             video_id: The video_id to be played.
         """
         video = self._video_library.get_video(video_id)
-        if (video is None):
+        if video is None:
             print("Cannot play video: Video does not exist" )
         else:
-            if (len(self._video_library.playing) > 0):
+            if len(self._video_library.playing) > 0:
                 print("Stopping video: " + self._video_library._playing_video)
             print('Playing video: {}'.format(video.title))
             self._video_library.now_playing(video.title)
@@ -41,7 +41,7 @@ class VideoPlayer:
     def stop_video(self):
         """Stops the current video."""
 
-        if (len(self._video_library.playing) == 0):
+        if len(self._video_library.playing) == 0:
             print("Cannot stop video: No video is currently playing" )
         else:
             print("Stopping video: " + self._video_library._playing_video)
@@ -58,7 +58,13 @@ class VideoPlayer:
     def pause_video(self):
         """Pauses the current video."""
 
-        print("pause_video needs implementation")
+        if self._video_library.is_paused:
+            print('Video already paused: {}'.format(self._video_library.playing))
+        elif not self._video_library.playing:
+            print("Cannot pause video: No video is currently playing")
+        else:
+            print('Pausing video: {}'.format(self._video_library.playing))
+            self._video_library.pause_video()
 
     def continue_video(self):
         """Resumes playing the current video."""
