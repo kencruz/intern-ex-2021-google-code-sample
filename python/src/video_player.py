@@ -34,17 +34,22 @@ class VideoPlayer:
             print("Cannot play video: Video does not exist" )
         else:
             if len(self._video_library.playing) > 0:
-                print("Stopping video: " + self._video_library._playing_video)
+                prev_video_id = self._video_library.playing;
+                prev_video = self._video_library.get_video(prev_video_id);
+                print("Stopping video: " + prev_video.title)
+
             print('Playing video: {}'.format(video.title))
-            self._video_library.now_playing(video.title)
+            self._video_library.now_playing(video.video_id)
 
     def stop_video(self):
         """Stops the current video."""
+        prev_video_id = self._video_library.playing;
+        prev_video = self._video_library.get_video(prev_video_id);
 
         if len(self._video_library.playing) == 0:
             print("Cannot stop video: No video is currently playing" )
         else:
-            print("Stopping video: " + self._video_library._playing_video)
+            print("Stopping video: " + prev_video.title)
             self._video_library.stopping_video()
 
     def play_random_video(self):
@@ -58,12 +63,15 @@ class VideoPlayer:
     def pause_video(self):
         """Pauses the current video."""
 
+        prev_video_id = self._video_library.playing;
+        prev_video = self._video_library.get_video(prev_video_id);
+
         if self._video_library.is_paused:
-            print('Video already paused: {}'.format(self._video_library.playing))
+            print('Video already paused: {}'.format(prev_video.title))
         elif not self._video_library.playing:
             print("Cannot pause video: No video is currently playing")
         else:
-            print('Pausing video: {}'.format(self._video_library.playing))
+            print('Pausing video: {}'.format(prev_video.title))
             self._video_library.pause_video()
 
     def continue_video(self):
@@ -74,7 +82,16 @@ class VideoPlayer:
     def show_playing(self):
         """Displays video currently playing."""
 
-        print("show_playing needs implementation")
+        video_id = self._video_library.playing;
+        video = self._video_library.get_video(video_id);
+        
+        if video:
+            out = 'Currently playing: {title} ({id}) [{tags}]'.format(title=video.title, id=video.video_id, tags=' '.join(video.tags))
+            if self._video_library.is_paused:
+                out = out + " - PAUSED"
+            print(out)
+        else:
+            print("No video is currently playing")
 
     def create_playlist(self, playlist_name):
         """Creates a playlist with a given name.
