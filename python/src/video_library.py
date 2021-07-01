@@ -54,6 +54,10 @@ class VideoLibrary:
         """Add video id to an existing playlist."""
         self._playlists[playlist_name.lower()]['videos'].add(video_id)
 
+    def remove_from_playlist(self, playlist_name, video_id):
+        """Remove video id to an existing playlist."""
+        self._playlists[playlist_name.lower()]['videos'].remove(video_id)
+
     def pause_video(self):
         """Pauses the current playing video."""
         self._video_paused = True
