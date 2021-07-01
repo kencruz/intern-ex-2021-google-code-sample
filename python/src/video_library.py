@@ -20,6 +20,7 @@ class VideoLibrary:
         self._playing_video = ""
         self._video_paused = False
         self._playlists = {}
+        self._flagged = {}
         with open(Path(__file__).parent / "videos.txt") as video_file:
             reader = _csv_reader_with_strip(
                 csv.reader(video_file, delimiter="|"))
@@ -46,6 +47,11 @@ class VideoLibrary:
         """Returns dictionary of playlists."""
         return self._playlists
 
+    @property
+    def flagged(self) -> dict:
+        """Returns dictionary of flagged video_ids."""
+        return self._flagged
+
     def create_playlist(self, playlist_name):
         """Creates a new playlist."""
         self._playlists[playlist_name.lower()] = {"name": playlist_name, "videos": []}
@@ -64,7 +70,11 @@ class VideoLibrary:
 
     def delete_playlist(self, playlist_name):
         """Delete an existing playlist."""
-        self._playlists.pop('playlist_name', None)
+        self._playlists.pop(playlist_name, None)
+
+    def flag_video(self, video_id, reason=""):
+        """Add flagged status to video id with optional reason"""
+        self._flagged[video_id] = reason
 
     def pause_video(self):
         """Pauses the current playing video."""

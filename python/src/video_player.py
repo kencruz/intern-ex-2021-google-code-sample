@@ -126,11 +126,14 @@ class VideoPlayer:
         """
         playlists = self._video_library.playlists
         video = self._video_library.get_video(video_id)
+        flagged = self._video_library.flagged
 
         if playlist_name.lower() not in playlists:
             print('Cannot add video to {}: Playlist does not exist'.format(playlist_name))
         elif video is None:
             print('Cannot add video to {}: Video does not exist'.format(playlist_name))
+        elif video_id in flagged:
+            print('Cannot add video to {playlist}: Video is currently flagged (reason: {reason})'.format(playlist=playlist_name, reason=flagged[video_id] if flagged[video_id] else "Not supplied"))
         elif video_id in playlists[playlist_name.lower()]['videos']:
             print('Cannot add video to {}: Video already added'.format(playlist_name))
         else:
@@ -282,7 +285,18 @@ class VideoPlayer:
             video_id: The video_id to be flagged.
             flag_reason: Reason for flagging the video.
         """
-        print("flag_video needs implementation")
+
+        video = self._video_library.get_video(video_id)
+        flagged = self._video_library.flagged
+
+        if video is None:
+            print("Cannot flag video: Video does not exist")
+        elif video_id in flagged:
+            print("Cannot flag video: Video is already flagged")
+        else:
+            self._video_library.flag_video(video_id, flag_reason.strip())
+            print('Successfully flagged video: {video_title} (reason: {reason})'.format(video_title=video.title, reason=flag_reason if flag_reason else "Not supplied"))
+        
 
     def allow_video(self, video_id):
         """Removes a flag from a video.
