@@ -58,6 +58,11 @@ class VideoLibrary:
         """Remove video id to an existing playlist."""
         self._playlists[playlist_name.lower()]['videos'].remove(video_id)
 
+    def clear_playlist(self, playlist_name):
+        """Clear list of video ids to an existing playlist."""
+        self._playlists[playlist_name.lower()]['videos'].clear()
+
+
     def pause_video(self):
         """Pauses the current playing video."""
         self._video_paused = True

@@ -195,7 +195,14 @@ class VideoPlayer:
         Args:
             playlist_name: The playlist name.
         """
-        print("clears_playlist needs implementation")
+        playlists = self._video_library.playlists
+
+        if playlist_name.lower() not in playlists:
+            print('Cannot clear playlist {}: Playlist does not exist'.format(playlist_name))
+        else:
+            self._video_library.clear_playlist(playlist_name.lower())
+            print('Successfully removed all videos from {}'.format(playlist_name))
+
 
     def delete_playlist(self, playlist_name):
         """Deletes a playlist with a given name.
