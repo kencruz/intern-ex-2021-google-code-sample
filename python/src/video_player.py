@@ -108,7 +108,14 @@ class VideoPlayer:
         Args:
             playlist_name: The playlist name.
         """
-        print("create_playlist needs implementation")
+
+        playlists = self._video_library.playlists
+
+        if playlist_name.lower() in playlists:
+            print("Cannot create playlist: A playlist with the same name already exists")
+        else:
+            self._video_library.create_playlist(playlist_name)
+            print("Successfully created new playlist: " + playlist_name)
 
     def add_to_playlist(self, playlist_name, video_id):
         """Adds a video to a playlist with a given name.

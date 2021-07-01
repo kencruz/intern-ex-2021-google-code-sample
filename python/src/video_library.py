@@ -19,6 +19,7 @@ class VideoLibrary:
         self._videos = {}
         self._playing_video = ""
         self._video_paused = False
+        self._playlists = {}
         with open(Path(__file__).parent / "videos.txt") as video_file:
             reader = _csv_reader_with_strip(
                 csv.reader(video_file, delimiter="|"))
@@ -39,6 +40,15 @@ class VideoLibrary:
     def is_paused(self) -> bool:
         """Returns boolean of if the video is paused."""
         return self._video_paused
+
+    @property
+    def playlists(self) -> list:
+        """Returns list of playlist names, lowercase."""
+        return list(map(lambda x: x.lower(), [*self._playlists]))
+
+    def create_playlist(self, playlist_name):
+        """Creates a new playlist."""
+        self._playlists[playlist_name] = []
 
     def pause_video(self):
         """Pauses the current playing video."""
