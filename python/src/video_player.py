@@ -210,7 +210,13 @@ class VideoPlayer:
         Args:
             playlist_name: The playlist name.
         """
-        print("deletes_playlist needs implementation")
+        playlists = self._video_library.playlists
+        
+        if playlist_name.lower() not in playlists:
+            print('Cannot delete playlist {}: Playlist does not exist'.format(playlist_name))
+        else:
+            self._video_library.delete_playlist(playlist_name.lower())
+            print('Deleted playlist: {}'.format(playlist_name))
 
     def search_videos(self, search_term):
         """Display all the videos whose titles contain the search_term.

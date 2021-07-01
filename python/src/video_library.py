@@ -48,11 +48,11 @@ class VideoLibrary:
 
     def create_playlist(self, playlist_name):
         """Creates a new playlist."""
-        self._playlists[playlist_name.lower()] = {"name": playlist_name, "videos": set()}
+        self._playlists[playlist_name.lower()] = {"name": playlist_name, "videos": []}
 
     def add_to_playlist(self, playlist_name, video_id):
         """Add video id to an existing playlist."""
-        self._playlists[playlist_name.lower()]['videos'].add(video_id)
+        self._playlists[playlist_name.lower()]['videos'].append(video_id)
 
     def remove_from_playlist(self, playlist_name, video_id):
         """Remove video id to an existing playlist."""
@@ -62,6 +62,9 @@ class VideoLibrary:
         """Clear list of video ids to an existing playlist."""
         self._playlists[playlist_name.lower()]['videos'].clear()
 
+    def delete_playlist(self, playlist_name):
+        """Delete an existing playlist."""
+        self._playlists.pop('playlist_name', None)
 
     def pause_video(self):
         """Pauses the current playing video."""
