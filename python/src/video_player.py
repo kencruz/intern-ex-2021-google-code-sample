@@ -243,7 +243,7 @@ class VideoPlayer:
             print("Would you like to play any of the above? If yes, specify the number of the video.")
             print("If your answer is not a valid number, we will assume it's a no.")
             x = input()
-            if x.isnumeric() and int(x) > 1 and int(x) < len(matched) + 1:
+            if x.isnumeric() and int(x) > 0 and int(x) < len(matched) + 1:
                 self.play_video(matched[int(x) - 1].video_id)
 
     def search_videos_tag(self, video_tag):
@@ -252,7 +252,28 @@ class VideoPlayer:
         Args:
             video_tag: The video tag to be used in search.
         """
-        print("search_videos_tag needs implementation")
+
+        videos = self._video_library.get_all_videos()
+        matched = []
+
+        for video in videos:
+            if video_tag.strip().lower() in video.tags:
+                matched.append(video)
+
+        if len(matched) < 1:
+            print("No search results for " + video_tag)
+        else:
+            matched.sort(key=lambda x: x.title)
+            print("Here are the results for " + video_tag + ":")
+
+            for i, video in enumerate(matched):
+                print('{index}) {title} ({id}) [{tags}]'.format(index=i + 1,title=video.title, id=video.video_id, tags=' '.join(video.tags)))
+
+            print("Would you like to play any of the above? If yes, specify the number of the video.")
+            print("If your answer is not a valid number, we will assume it's a no.")
+            x = input()
+            if x.isnumeric() and int(x) > 0 and int(x) < len(matched) + 1:
+                self.play_video(matched[int(x) - 1].video_id)
 
     def flag_video(self, video_id, flag_reason=""):
         """Mark a video as flagged.
