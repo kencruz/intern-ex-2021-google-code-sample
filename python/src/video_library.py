@@ -42,13 +42,17 @@ class VideoLibrary:
         return self._video_paused
 
     @property
-    def playlists(self) -> list:
-        """Returns list of playlist names, lowercase."""
-        return list(map(lambda x: x.lower(), [*self._playlists]))
+    def playlists(self) -> dict:
+        """Returns dictionary of playlists."""
+        return self._playlists
 
     def create_playlist(self, playlist_name):
         """Creates a new playlist."""
-        self._playlists[playlist_name] = []
+        self._playlists[playlist_name.lower()] = {"name": playlist_name, "videos": set()}
+
+    def add_to_playlist(self, playlist_name, video_id):
+        """Add video id to an existing playlist."""
+        self._playlists[playlist_name.lower()]['videos'].add(video_id)
 
     def pause_video(self):
         """Pauses the current playing video."""
