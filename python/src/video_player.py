@@ -30,8 +30,11 @@ class VideoPlayer:
             video_id: The video_id to be played.
         """
         video = self._video_library.get_video(video_id)
+        flagged = self._video_library.flagged
         if video is None:
             print("Cannot play video: Video does not exist" )
+        elif video_id in flagged:
+            print('Cannot play video: Video is currently flagged (reason: {reason})'.format(reason=flagged[video_id] if flagged[video_id] else "Not supplied"))
         else:
             if len(self._video_library.playing) > 0:
                 prev_video_id = self._video_library.playing;
