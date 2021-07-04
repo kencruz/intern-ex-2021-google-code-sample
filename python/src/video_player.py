@@ -60,8 +60,11 @@ class VideoPlayer:
 
         videos = self._video_library.get_all_videos()
         num_videos = len(videos)
-        random_video = videos[random.randint(0, num_videos - 1)]
-        self.play_video(random_video.video_id)
+        if num_videos < 1:
+            print("No videos available")
+        else:
+            random_video = videos[random.randint(0, num_videos - 1)]
+            self.play_video(random_video.video_id)
 
     def pause_video(self):
         """Pauses the current video."""

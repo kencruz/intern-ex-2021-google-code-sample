@@ -92,8 +92,8 @@ class VideoLibrary:
 
     def get_all_videos(self):
         """Returns all available video information from the video library."""
-        return list(self._videos.values())
-
+        videos = list(self._videos.values())
+        return list(filter(lambda x: (x.video_id not in self._flagged), videos))
     def get_video(self, video_id):
         """Returns the video object (title, url, tags) from the video library.
 
