@@ -174,9 +174,13 @@ class VideoPlayer:
             if len(playlists[playlist_name.lower()]['videos']) < 1:
                 print('No videos here yet')
             else:
+                flagged = self._video_library.flagged
                 for video_id in playlists[playlist_name.lower()]['videos']:
                     video = self._video_library.get_video(video_id);
-                    print('{title} ({id}) [{tags}]'.format(title=video.title, id=video.video_id, tags=' '.join(video.tags)))
+                    out = '{title} ({id}) [{tags}]'.format(title=video.title, id=video.video_id, tags=' '.join(video.tags))
+                    if video_id in flagged:
+                        out = out + ' - FLAGGED (reason: {})'.format(flagged[video_id] if flagged[video_id] else 'Not supplied') 
+                    print(out)
 
     def remove_from_playlist(self, playlist_name, video_id):
         """Removes a video to a playlist with a given name.
