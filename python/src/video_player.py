@@ -18,10 +18,15 @@ class VideoPlayer:
         
         print("Here's a list of all available videos:" )
         videos = self._video_library.get_all_videos()
+        flagged = self._video_library.flagged
         # Sort by lexicographical order by title
         videos.sort(key=lambda x: x.title)
         for video in videos:
-            print('{title} ({id}) [{tags}]'.format(title=video.title, id=video.video_id, tags=' '.join(video.tags)))
+            out = '{title} ({id}) [{tags}]'.format(title=video.title, id=video.video_id, tags=' '.join(video.tags))
+            if video.video_id in flagged:
+                id = video.video_id
+                out = out + ' - FLAGGED (reason: {})'.format(flagged[id] if flagged[id] else 'Not supplied') 
+            print(out)
 
     def play_video(self, video_id):
         """Plays the respective video.
@@ -58,7 +63,7 @@ class VideoPlayer:
     def play_random_video(self):
         """Plays a random video from the video library."""
 
-        videos = self._video_library.get_all_videos()
+        videos = list(filter(lambda x: (x.video_id not in self._video_library.flagged),self._video_library.get_all_videos()))
         num_videos = len(videos)
         if num_videos < 1:
             print("No videos available")
