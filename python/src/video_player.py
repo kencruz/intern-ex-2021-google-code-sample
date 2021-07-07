@@ -242,7 +242,7 @@ class VideoPlayer:
         Args:
             search_term: The query to be used in search.
         """
-        videos = self._video_library.get_all_videos()
+        videos = list(filter(lambda x: (x.video_id not in self._video_library.flagged),self._video_library.get_all_videos()))
         videos.sort(key=lambda x: x.title)
         matched = []
 
@@ -271,7 +271,7 @@ class VideoPlayer:
             video_tag: The video tag to be used in search.
         """
 
-        videos = self._video_library.get_all_videos()
+        videos = list(filter(lambda x: (x.video_id not in self._video_library.flagged),self._video_library.get_all_videos()))
         matched = []
 
         for video in videos:
