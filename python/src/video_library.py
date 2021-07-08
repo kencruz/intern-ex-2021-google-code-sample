@@ -76,6 +76,10 @@ class VideoLibrary:
         """Add flagged status to video id with optional reason"""
         self._flagged[video_id] = reason
 
+    def unflag_video(self, video_id):
+        """Remove flagged status to video id"""
+        self._flagged.pop(video_id)
+
     def pause_video(self):
         """Pauses the current playing video."""
         self._video_paused = True
