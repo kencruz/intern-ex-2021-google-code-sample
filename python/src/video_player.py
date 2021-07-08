@@ -309,6 +309,8 @@ class VideoPlayer:
         elif video_id in flagged:
             print("Cannot flag video: Video is already flagged")
         else:
+            if video_id == self._video_library.playing:
+                self.stop_video()
             self._video_library.flag_video(video_id, flag_reason.strip())
             print('Successfully flagged video: {video_title} (reason: {reason})'.format(video_title=video.title, reason=flag_reason if flag_reason else "Not supplied"))
         
