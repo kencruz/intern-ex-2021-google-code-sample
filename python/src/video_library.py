@@ -43,34 +43,9 @@ class VideoLibrary:
         return self._video_paused
 
     @property
-    def playlists(self) -> dict:
-        """Returns dictionary of playlists."""
-        return self._playlists
-
-    @property
     def flagged(self) -> dict:
         """Returns dictionary of flagged video_ids."""
         return self._flagged
-
-    def create_playlist(self, playlist_name):
-        """Creates a new playlist."""
-        self._playlists[playlist_name.lower()] = {"name": playlist_name, "videos": []}
-
-    def add_to_playlist(self, playlist_name, video_id):
-        """Add video id to an existing playlist."""
-        self._playlists[playlist_name.lower()]['videos'].append(video_id)
-
-    def remove_from_playlist(self, playlist_name, video_id):
-        """Remove video id to an existing playlist."""
-        self._playlists[playlist_name.lower()]['videos'].remove(video_id)
-
-    def clear_playlist(self, playlist_name):
-        """Clear list of video ids to an existing playlist."""
-        self._playlists[playlist_name.lower()]['videos'].clear()
-
-    def delete_playlist(self, playlist_name):
-        """Delete an existing playlist."""
-        self._playlists.pop(playlist_name, None)
 
     def flag_video(self, video_id, reason=""):
         """Add flagged status to video id with optional reason"""
